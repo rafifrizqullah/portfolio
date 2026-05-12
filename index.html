@@ -40,9 +40,12 @@
   </head>
   <body>
     <header id="header" class="sticky-top">
-      <nav id="navbar" class="navbar navbar-expand-md bg-light shadow-sm">
+      <nav
+        id="navbar"
+        class="navbar navbar-expand-md bg-body-tertiary shadow-sm"
+      >
         <div class="container">
-          <a class="navbar-brand mb-0 h1" href="#">rafifrizqullah</a>
+          <a class="navbar-brand text-body mb-0 h1" href="#">rafifrizqullah</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -60,16 +63,63 @@
           >
             <ul class="navbar-nav text-center">
               <li class="nav-item">
-                <a class="nav-link" href="#hero">Home</a>
+                <a class="nav-link text-body" href="#hero">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#about">About</a>
+                <a class="nav-link text-body" href="#about">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#project">Project</a>
+                <a class="nav-link text-body" href="#project">Project</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#contact">Contact</a>
+                <a class="nav-link text-body" href="#contact">Contact</a>
+              </li>
+              <li class="nav-item dropdown">
+                <button
+                  class="nav-link text-body dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  aria-label="Change color mode"
+                >
+                  <i class="bi bi-circle-half me-1" aria-hidden="true"></i>
+                  <span id="colorModeLabel">Auto</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      data-bs-theme-value="light"
+                    >
+                      <i class="bi bi-sun-fill me-2" aria-hidden="true"></i>
+                      Light
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      data-bs-theme-value="dark"
+                    >
+                      <i
+                        class="bi bi-moon-stars-fill me-2"
+                        aria-hidden="true"
+                      ></i>
+                      Dark
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      class="dropdown-item"
+                      type="button"
+                      data-bs-theme-value="auto"
+                    >
+                      <i class="bi bi-circle-half me-2" aria-hidden="true"></i>
+                      Auto
+                    </button>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -416,10 +466,10 @@
             <div class="col-md-6">
               <h2>Kontak</h2>
               <a
-                class="icon-link d-inline text-dark text-decoration-none"
+                class="icon-link d-inline text-body text-decoration-none"
                 href="mailto:mrafifrizqullah@outlook.com"
               >
-                <i class="bi bi-envelope-at text-dark" aria-hidden="true"></i>
+                <i class="bi bi-envelope-at text-body" aria-hidden="true"></i>
                 mrafifrizqullah@outlook.com
               </a>
               <ul class="list-inline">
@@ -430,7 +480,7 @@
                     rel="noopener noreferrer"
                     aria-label="Linkdedin"
                   >
-                    <i class="bi bi-linkedin text-dark"></i>
+                    <i class="bi bi-linkedin text-body"></i>
                   </a>
                 </li>
                 <li class="list-inline-item">
@@ -440,7 +490,7 @@
                     rel="noopener noreferrer"
                     aria-label="Instagram"
                   >
-                    <i class="bi bi-instagram text-dark"></i>
+                    <i class="bi bi-instagram text-body"></i>
                   </a>
                 </li>
                 <li class="list-inline-item">
@@ -450,7 +500,7 @@
                     rel="noopener noreferrer"
                     aria-label="Twitter/X"
                   >
-                    <i class="bi bi-twitter-x text-dark"></i>
+                    <i class="bi bi-twitter-x text-body"></i>
                   </a>
                 </li>
                 <li class="list-inline-item">
@@ -460,7 +510,7 @@
                     rel="noopener noreferrer"
                     aria-label="Github"
                   >
-                    <i class="bi bi-github text-dark"></i>
+                    <i class="bi bi-github text-body"></i>
                   </a>
                 </li>
               </ul>
@@ -481,7 +531,7 @@
           >Copyright © 2024 rafifrizqullah. All rights reserved.</span
         >
         <a
-          class="text-dark text-decoration-none"
+          class="text-body text-decoration-none"
           href="https://www.freepik.com/free-vector/programming-concept-illustration_7118755.htm"
           target="_blank"
           rel="noopener noreferrer"
@@ -496,5 +546,66 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+    <script>
+      (() => {
+        const storedTheme = localStorage.getItem("theme");
+        const colorModeLabel = document.getElementById("colorModeLabel");
+        const themeButtons = document.querySelectorAll("[data-bs-theme-value]");
+
+        const getPreferredTheme = () => {
+          if (storedTheme) {
+            return storedTheme;
+          }
+
+          return "auto";
+        };
+
+        const getSystemTheme = () =>
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+
+        const setTheme = (theme) => {
+          document.documentElement.setAttribute(
+            "data-bs-theme",
+            theme === "auto" ? getSystemTheme() : theme
+          );
+        };
+
+        const updateActiveMode = (theme) => {
+          themeButtons.forEach((button) => {
+            const isActive = button.getAttribute("data-bs-theme-value") === theme;
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-pressed", isActive);
+          });
+
+          colorModeLabel.textContent =
+            theme.charAt(0).toUpperCase() + theme.slice(1);
+        };
+
+        const showActiveTheme = (theme) => {
+          setTheme(theme);
+          updateActiveMode(theme);
+        };
+
+        showActiveTheme(getPreferredTheme());
+
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", () => {
+            if ((localStorage.getItem("theme") || "auto") === "auto") {
+              setTheme("auto");
+            }
+          });
+
+        themeButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const theme = button.getAttribute("data-bs-theme-value");
+            localStorage.setItem("theme", theme);
+            showActiveTheme(theme);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
